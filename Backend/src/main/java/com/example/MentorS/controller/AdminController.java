@@ -4,6 +4,7 @@ import com.example.MentorS.models.Category;
 import com.example.MentorS.models.Course;
 import com.example.MentorS.models.Trainer;
 import com.example.MentorS.repository.CategoryRepository;
+import com.example.MentorS.repository.CourseRepository;
 import com.example.MentorS.repository.TrainerRepository;
 import com.example.MentorS.service.AdminService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -24,6 +25,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/admin")
@@ -32,30 +34,47 @@ public class AdminController {
     @Autowired
     AdminService adminService;
 
-
     @Autowired
     TrainerRepository trainerRepository;
-
+    @Autowired
+    CourseRepository courseRepository;
     @Autowired
     CategoryRepository categoryRepository;
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateProcess(@RequestParam("id") Integer id, @RequestParam("course") String courseJson, @RequestParam("file") MultipartFile file
-            , @RequestParam("category") String categoryName, @RequestParam("trainer") String trainerName) {
+    public ResponseEntity<?> updateProcess(@RequestParam("id") Integer id,
+                                           @RequestParam("course") String courseJson ,@RequestParam("file") MultipartFile file
+            , @RequestParam("category") String categoryName, @RequestParam("trainer") String trainerName){
+        Optional<Course> c=courseRepository.findById(id);
+        System.out.println(c.get().getName());
+        System.out.println(categoryName+" ->"+trainerName);
+        if(categoryName.isEmpty())
+        {
+            System.out.println("In--");
+            categoryName="Data";
+        }
+        if(trainerName.isEmpty())
+        {
+            System.out.println("in 2");
+            trainerName="Krishna";
+
+        }
+        System.out.println(categoryName+"  ->>>>>>>>>>>>>>"+trainerName);
+        Category category=categoryRepository.getCategoryByCategoryName(categoryName);
+        Trainer trainer=trainerRepository.getTrainerByName(trainerName);
+
         ObjectMapper objectMapper = new ObjectMapper();
+        System.out.println("In Update");
         try {
             Course course = objectMapper.readValue(courseJson, Course.class);
-            System.out.println(course.getDescription() + "-" + course.getName() + "-" + course.getTrainer() + "-" + course.getCategory().getCategoryName() + "->" + course.getPrice() + "->" + course.getSeats());
-
             course.setId(id);
-            course.setTrainer(trainerRepository.getTrainerByName(trainerName));
-            course.setCategory(categoryRepository.getCategoryByCategoryName(categoryName));
-            Course rs = adminService.updateCourse(course, file);
-            System.out.println("Updated");
+
+            course.setTrainer(trainer);
+            course.setCategory(category);
+            Course rs=adminService.updateCourse(course,file);
             return new ResponseEntity<>(HttpStatus.OK);
-
-        } catch (Exception e) {
-
+        }catch (Exception e){
+            System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -66,7 +85,7 @@ public class AdminController {
     public ResponseEntity<HttpStatus> deleteCourse(@PathVariable("id") Integer id) {
         System.out.println("Id:->" + id);
         try {
-            Course rs = adminService.delete(id);
+            Course rs =adminService.delete(id) ;
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -134,5 +153,6 @@ public class AdminController {
     public String welcome() {
         return "WelcomeAdmin";
     }
+
 
 }

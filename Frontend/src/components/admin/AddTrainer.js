@@ -131,7 +131,7 @@ const AddTrainer = () => {
 
 
                                 <Container className=''>
-                                    <Button type="submit" color="success">Add Course</Button>
+                                    <Button type="submit" color="success">Add Trainer</Button>
                                     <Button className="m-3" color="warning" onClick={handleClear}>Clear</Button>
                                 </Container>
 

@@ -1,7 +1,7 @@
 package com.example.MentorS.models;
 
 import jakarta.persistence.*;
-
+import java.util.*;
 @Entity
 public class Course {
     @Id
@@ -19,10 +19,13 @@ public class Course {
 
     private int seats;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Trainer trainer;
 
     private String imgUrl;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = false)
+    private List<Orders> orders;
 
     public Course() {
     }
@@ -102,4 +105,10 @@ public class Course {
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
     }
+
+
+    public void setOrders(List<Orders> orders) {
+        this.orders = orders;
+    }
+
 }

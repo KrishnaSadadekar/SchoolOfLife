@@ -6,7 +6,7 @@ function Trainers() {
     document.title = "Trainers";
   }, []);
 
-  const getAllCoursesFromServer = () => {
+  const getAllTrainersFromServer = () => {
 
 
 
@@ -28,7 +28,7 @@ function Trainers() {
   };
 
   useEffect(() => {
-    getAllCoursesFromServer();
+    getAllTrainersFromServer();
 
   }, []);
 

@@ -13,10 +13,11 @@ public class Orders {
     private String lastName;
 
     private String email;
+
     private String city;
 
     private String contactNumber;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
     private Course course;
     @Transient
     private int courseFees;

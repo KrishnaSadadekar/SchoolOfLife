@@ -53,7 +53,7 @@ const Product = ({ course, update }) => {
                 This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
               </CardText>
               <Container>
-                <Link tag="a" to={`/update/${course.id}`} action="true"><Button className='m-2' color='primary'>Update</Button></Link>
+                <Link to={`/admin/update/${course.id}`} action="true"><Button className='m-2' color='primary'>Update</Button></Link>
                 <Button className='m-2' color='success' onClick={() => { deletecourse(course.id) }} >Delete</Button>
               </Container>
             </CardBody>

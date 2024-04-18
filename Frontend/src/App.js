@@ -24,7 +24,7 @@ import AddCategory from './components/admin/AddCategory';
 import Login from './components/admin/Login';
 import { isLogin } from './components/auth/auth';
 import { useState, useEffect } from 'react';
-import AdminDashboard from './components/admin/AdminDashboard';
+
 import dashboard from './components/Dashboard';
 import { Link } from 'react-router-dom';
 import AdminD from './components/admin/AdminD';
@@ -49,9 +49,9 @@ function App() {
             <Route path='/addcourse' element={<AddCourse />} />
             <Route path='/addtrainer' element={<AddTrainer />} />
             <Route path="/allProducts" element={<AllProducts />} />
-            <Route path='/update/:id' element={<UpdateProduct />} />
+            <Route path='/admin/update/:id' element={<UpdateProduct />} />
             <Route path='/addcategory' element={<AddCategory />} />
-            <Route path='/admin-dashboard' element={<AdminDashboard/>} />
+            
             <Route path='/adminD' element={<AdminD/>} />
 
           </Routes>

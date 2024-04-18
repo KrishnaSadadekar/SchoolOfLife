@@ -6,7 +6,7 @@ import { ErroAlert } from '../SweetAlert';
 const AddCourse = () => {
 
     useEffect(() => {
-        document.title = "Trainers";
+        document.title = "Add Course";
     }, []);
 
 

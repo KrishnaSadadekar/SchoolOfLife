@@ -16,7 +16,7 @@ const UpdateProduct = () => {
     const [categories, setCategories] = useState([]);
     const [category, setCategory] = useState('');
     const [trainer, setTrainer] = useState('');
-    const navigate=useNavigate();
+    const navigate = useNavigate();
 
     const getCourseDetails = (id) => {
         axios.get(`http://localhost:8080/course/${id}`).then(
@@ -81,6 +81,7 @@ const UpdateProduct = () => {
 
     const handleTrainerChange = (e) => {
         setTrainer(e.target.value);
+        console.log(trainer);
     };
 
 
@@ -88,6 +89,7 @@ const UpdateProduct = () => {
         alert('in handle of category')
         setCategory(e.target.value);
         alert(category);
+        console.log(category);
     };
 
 
@@ -102,14 +104,14 @@ const UpdateProduct = () => {
         formData.append('trainer', trainer);
         formData.append('category', category);
     };
-    let token=`Bearer ${sessionStorage.getItem("data")}`;
+    let token = `Bearer ${sessionStorage.getItem("data")}`;
     const handleSubmit = async (e) => {
         e.preventDefault();
         handleUpload();
         try {
-            const response = await axios.put(`http://localhost:8080/admin/update/${id}`, formData,{headers:{Authorization:token}});
+            const response = await axios.put(`http://localhost:8080/admin/update/${id}`, formData, { headers: { Authorization: token } });
             alert("Updated!!")
-            navigate('/allProducts');    
+            navigate('/allProducts');
         } catch (error) {
             console.error('Error sending data:', error);
             alert("error found")
@@ -159,7 +161,7 @@ const UpdateProduct = () => {
                                         type="text"
                                         value={course.name}
                                         onChange={handleChange}
-                                        autoComplete="off" 
+                                        autoComplete="off"
                                         required
                                     />
                                 </FormGroup>
@@ -171,8 +173,9 @@ const UpdateProduct = () => {
                                         <Form.Select
                                             name="category"
                                             id="category"
-                                            value={category}
                                             onChange={handleCategoryChange}
+                                            required
+
                                         >
                                             <option value="" disabled>Select Category</option>
                                             {
@@ -183,6 +186,7 @@ const UpdateProduct = () => {
                                                 ))
 
                                             }
+
                                         </Form.Select>
                                     </div>
 
@@ -215,6 +219,7 @@ const UpdateProduct = () => {
                                             id="trainer"
                                             value={trainer}
                                             onChange={handleTrainerChange}
+                                            required
                                         >
                                             <option value="" disabled>Select Trainer</option>
                                             {
@@ -283,7 +288,7 @@ const UpdateProduct = () => {
 
 
                                 <Container className=''>
-                                    <Button type="submit" color="success">Add Course</Button>
+                                    <Button type="submit" color="success">Update Course</Button>
                                     <Button className="m-3" color="warning" onClick={handleClear}>Clear</Button>
                                 </Container>
 

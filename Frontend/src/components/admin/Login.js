@@ -4,17 +4,18 @@ import { Card, CardGroup, CardImg } from 'reactstrap';
 import Axios from 'axios';
 import { Form } from 'react-bootstrap';
 import loginAdmin from '../services/Service';
-import { doLogin } from '../auth/auth';
+import { doLogin, isLogin } from '../auth/auth';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 const Login = () => {
     useEffect(() => {
         document.title = "Login";
     }, []);
-    const navigate=useNavigate();
+    const navigate = useNavigate();
     const [LoginDetail, setLoginDetail] = useState(
         {
-            email:'',
-            password:''
+            email: '',
+            password: ''
         });
 
 
@@ -25,33 +26,35 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log("in HandleSubmit");
-        if(LoginDetail.email.trim()==''||LoginDetail.password.trim()=='')
-        {
+        if (LoginDetail.email.trim() == '' || LoginDetail.password.trim() == '') {
             alert('Please Enter the username and password!');
             return '';
         }
-        
+
         console.log(LoginDetail);
-        loginAdmin(LoginDetail).then((data)=>
-        {
-            console.log("Login Successfully");
+        
+        try {
+            const data = await loginAdmin(LoginDetail);  // Call loginAdmin correctly
             console.log(data);
-            doLogin(data);
-            console.log('Inside token :::::::::::::::::::::::::::::::::::::::: '+sessionStorage.getItem("data"));
-            navigate('/adminD');
-            window.location.reload();
             
-        }).catch(error=>
-            {
-                console.log(error);
-                alert('Something went wrong!');
-            });
+            if (data !== null) {
+                console.log('Login Successfully');
                 
+                navigate('/allProducts');
+                window.location.reload();
+            } else {
+                alert('Invalid username and password!');
+            }
+        } catch (error) {
+            console.log('login error!')
+        }
+
+
     };
 
     const handleClear = () => {
         // alert('In clear Handle');
-        setLoginDetail({email:'',password:''});    
+        setLoginDetail({ email: '', password: '' });
 
     };
 

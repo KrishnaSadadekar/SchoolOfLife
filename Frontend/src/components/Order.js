@@ -28,8 +28,8 @@ const Order = () => {
     const [Razorpay] = useRazorpay();
 
     const handlePayment = async (e) => {
-        alert('in handle payment');
-        alert(e.courseFees);
+        // alert('in handle payment');
+        // alert(e.courseFees);
 
         const options = {
             key: "rzp_test_J4gQkx1Sk61kFL", // Enter the Key ID generated from the Dashboard
@@ -54,7 +54,7 @@ const Order = () => {
                 address: "Razorpay Corporate Office",
             },
             theme: {
-                color: "#3399cc",
+                color: "#86db9f",
             },
         };
 
@@ -76,7 +76,7 @@ const Order = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();  // Add this line to prevent default form submission behavior
-        alert('This is a simple alert!');
+        // alert('This is a simple alert!');
         try {
             const response = await Axios.post(`http://localhost:8080/create-order/${id}`, order);
             alert('In handle -2');

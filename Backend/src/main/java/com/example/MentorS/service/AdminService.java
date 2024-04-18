@@ -20,6 +20,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 
 @Service
@@ -51,8 +52,9 @@ public class AdminService {
 
             Path path = Paths.get(filePath, imageNameWithDateTime);
 
-
+            System.out.println("before");
             Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+            System.out.println("after");
             return imageNameWithDateTime;
         } catch (IOException e) {
             System.out.println("Image upload error" + e.getMessage());
@@ -70,7 +72,8 @@ public class AdminService {
             System.out.println("File is Empty!");
 
         } else {
-            String path = "D:\\Suhas\\Krishna\\SchoolOfLife\\Frontend\\public\\img\\courses";
+            String path="C:\\Users\\ADMIN\\Downloads\\SchoolOfLife\\Frontend\\public\\img\\courses";
+//            String path = "D:\\Suhas\\Krishna\\SchoolOfLife\\Frontend\\public\\img\\courses";
 
             String imageNameWithDateTime = uploadImage(file, path);
             course.setImgUrl(imageNameWithDateTime);
@@ -89,20 +92,25 @@ public class AdminService {
     }
 
     public Course updateCourse(Course course, MultipartFile file) {
-
+        Course oCourse=courseRepository.findById(course.getId()).get();
+        System.out.println("Image "+oCourse.getImgUrl());
 
         if (file.isEmpty()) {
-            course.setImgUrl(course.getImgUrl());
+            course.setImgUrl(oCourse.getImgUrl());
             System.out.println("File is Empty!");
 
-        } else {
-            String path = "D:\\Suhas\\Krishna\\SchoolOfLife\\Frontend\\public\\img\\courses";
+        } else
+        {
+            String path="C:\\Users\\ADMIN\\Downloads\\SchoolOfLife\\Frontend\\public\\img\\courses";
+//            String path = "D:\\Suhas\\Krishna\\SchoolOfLife\\Frontend\\public\\img\\courses";
+
             String imageNameWithDateTime = uploadImage(file, path);
             course.setImgUrl(imageNameWithDateTime);
 
         }
-
-        return courseRepository.save(course);
+        System.out.println(course.getImgUrl());
+        courseRepository.save(course);
+        return course;
     }
 
     public Trainer addTrainer(Trainer trainer, MultipartFile file) {
@@ -113,8 +121,9 @@ public class AdminService {
             System.out.println("File is Empty!");
 
         } else {
-//            String path = "C:\\Users\\User\\OneDrive\\Desktop\\New folder\\my-raz\\public\\img\\trainers";
-            String path = "D:\\Suhas\\Krishna\\SchoolOfLife\\Frontend\\public\\img\\trainers";
+            String path = "C:\\Users\\ADMIN\\Downloads\\SchoolOfLife\\Frontend\\public\\img\\trainers";
+//            String path = "D:\\Suhas\\Krishna\\SchoolOfLife\\Frontend\\public\\img\\trainers";
+
             String imageNameWithDateTime = uploadImage(file, path);
             trainer.setImgUrl(imageNameWithDateTime);
 
@@ -131,5 +140,19 @@ public class AdminService {
         return categoryRepository.save(category);
     }
 
+
+    public Trainer deleteTrainer(Integer id)
+    {
+        Optional<Trainer> trainer=trainerRepository.findById(id);
+        trainerRepository.delete(trainer.get());
+        return trainer.get();
+    }
+
+    public  Category deleteCategory(Integer id)
+    {
+        Optional<Category> category=categoryRepository.findById(id);
+        categoryRepository.delete(category.get());
+        return category.get();
+    }
 
 }

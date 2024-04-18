@@ -48,20 +48,20 @@ public class HomeController {
     CategoryRepository categoryRepository;
 //------------------------USER ACCESS-----------------------------------------------
 
-    @GetMapping("/addUser")
-    public ResponseEntity<?> addUser() {
-        try {
-            User user=new User();
-            user.setName("krishna");
-            user.setEmail("krushna1994@gmail.com");
-            user.setRole("Role_Admin");
-            user.setPassword(passwordEncoder.encode("123"));
-            userRepository.save(user);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+//    @GetMapping("/addUser")
+//    public ResponseEntity<?> addUser() {
+//        try {
+//            User user=new User();
+//            user.setName("krishna");
+//            user.setEmail("krushna1994@gmail.com");
+//            user.setRole("Role_Admin");
+//            user.setPassword(passwordEncoder.encode("123"));
+//            userRepository.save(user);
+//            return new ResponseEntity<>(HttpStatus.OK);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
 
 
 

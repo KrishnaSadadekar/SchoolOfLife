@@ -2,6 +2,7 @@
 
 export const isLogin=()=>
 {
+  console.log('in login::');
   
   let data=  sessionStorage.getItem("data");
   if(data==null)

@@ -34,20 +34,31 @@ public class AuthController {
     private Logger logger = LoggerFactory.getLogger(AuthController.class);
 
 
+
+
+
+
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody JwtRequest request) {
+    public ResponseEntity<?> login(@RequestBody JwtRequest request) throws Exception {
         System.out.println("In Login");
-        this.doAuthenticate(request.getEmail(), request.getPassword());
+        try {
+
+            this.doAuthenticate(request.getEmail(), request.getPassword());
 
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
-        String token = this.helper.generateToken(userDetails);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
+            String token = this.helper.generateToken(userDetails);
 
-        JwtResponse response = JwtResponse.builder()
-                .jwtToken(token)
-                .username(userDetails.getUsername()).build();
-        System.out.println("Token: "+response.getJwtToken());
-        return new ResponseEntity<>(response.getJwtToken(), HttpStatus.OK);
+            JwtResponse response = JwtResponse.builder()
+                    .jwtToken(token)
+                    .username(userDetails.getUsername()).build();
+            System.out.println("Token: " + response.getJwtToken());
+            return new ResponseEntity<>(response.getJwtToken(), HttpStatus.OK);
+        }catch (Exception e)
+        {
+            throw new Exception("Invalid user");
+        }
+
     }
 
     private void doAuthenticate(String email, String password) {
